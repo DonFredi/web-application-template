@@ -1,8 +1,7 @@
-import React from "react";
 import { Button, Section, Text } from "@react-email/components";
-import { ContactFormValues } from "@/lib/validations/contact-schema";
 import { siteConfig } from "@/config/site";
 import { EmailTemplate } from "../components/EmailTemplate";
+import type { ContactFormValues } from "@/shared/lib/validations/contact-schema";
 
 interface TemplateProps {
   formData: ContactFormValues;
@@ -11,9 +10,7 @@ interface TemplateProps {
 export default function ContactEmailTemplate({ formData }: TemplateProps) {
   return (
     <EmailTemplate>
-      <Text style={subheading}>
-        New Contact Form Submission from {siteConfig.name} Website
-      </Text>
+      <Text style={subheading}>New Contact Form Submission from {siteConfig.name} Website</Text>
       <Text style={paragraph}>
         From: <span style={span}>{formData.name}</span>
       </Text>
