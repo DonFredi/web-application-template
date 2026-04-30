@@ -1,9 +1,11 @@
 "use client";
+import * as Sentry from "@sentry/nextjs";
 import { getCurrentUser } from "@/modules/auth/api/me";
 import { refresh } from "@/modules/auth/api/refresh";
 import type { User } from "@/modules/auth/types";
 import FullScreenLoader from "@/shared/components/layout/FullScreenLoader";
 import { setAccessToken } from "@/shared/lib/api-client";
+import { authBreadcrumbs } from "@/shared/lib/sentry/sentry-breadcrumbs";
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 
 type AuthContextType = {
@@ -23,12 +25,22 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
   const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
   const setSession = useCallback((user: User, token: string) => {
+    authBreadcrumbs("Session set", {
+      userId: user.id,
+      email: user.email,
+    });
+    Sentry.setUser({
+      userId: user.id,
+      email: user.email,
+    });
     setUser(user);
     setToken(token);
     setAccessToken(token);
   }, []);
 
   const clearSession = useCallback(() => {
+    authBreadcrumbs("Session cleared");
+    Sentry.setUser(null);
     setUser(null);
     setToken(null);
     setAccessToken(null);

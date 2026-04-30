@@ -1,5 +1,7 @@
+import * as Sentry from "@sentry/nextjs";
 import { clientConfig } from "@/config/client";
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { authBreadcrumbs } from "./sentry/sentry-breadcrumbs";
 
 let accessToken: string | null = null;
 
@@ -39,6 +41,26 @@ const requestInterceptor = (config: InternalAxiosRequestConfig): InternalAxiosRe
 const responseInterceptor = (response: AxiosResponse): AxiosResponse => response;
 
 const responseInterceptorError = async (error: AxiosError) => {
+  /* SENTRY CODE STARTS */
+  const status = error.response?.status;
+  const url = error.config?.url;
+  const method = error.config?.method;
+  const shouldIgnore = status === 401 || status === 403;
+
+  if (!shouldIgnore) {
+    Sentry.captureException(error, {
+      tags: {
+        type: "api-error",
+        endpoint: url,
+        method,
+      },
+      extra: {
+        status,
+        data: error.response?.data,
+      },
+    });
+  }
+  /* SENTRY CODE ENDS */
   const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
   // if no response, network error
   if (!error.response) {
@@ -68,8 +90,10 @@ const responseInterceptorError = async (error: AxiosError) => {
 
   try {
     // call refresh endpoint
+    authBreadcrumbs("Token refresh started");
     const res = await apiPrivate.post("/auth/refresh", {});
     const newAccessToken = res.data.accessToken;
+    authBreadcrumbs("Token refresh successful");
     // save new token
     setAccessToken(newAccessToken);
     // retry all queued requests
@@ -79,6 +103,9 @@ const responseInterceptorError = async (error: AxiosError) => {
     api(originalRequest);
   } catch (refreshError) {
     // refresh failed logout scenario
+    authBreadcrumbs("Token refresh failed", {
+      error: String(refreshError),
+    });
     setAccessToken(null);
     refreshQueue = [];
     return Promise.reject(refreshError);
