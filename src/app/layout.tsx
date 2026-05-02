@@ -37,14 +37,7 @@ export default function RootLayout({
         {/* Website */}
         {/* <JsonLd data={websiteSchema} /> */}
         <QueryProvider>
-          <AuthProvider>
-            <Header />
-            <main className="flex flex-col flex-1 gap-x-10 min-h-[80vh]">
-              {children}
-              <Toaster position="top-center" />
-            </main>
-            <Footer />
-          </AuthProvider>
+          <AuthProvider>{children}</AuthProvider>
         </QueryProvider>
       </body>
     </html>

@@ -14,6 +14,7 @@ import MobileNavLink from "./components/MobileNavLink";
 import { Menu, XIcon } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import Copyright from "@/shared/components/shared/Copyright";
+import Badge from "../../shared/Badge";
 
 export default function MobileNav() {
   return (
@@ -26,7 +27,7 @@ export default function MobileNav() {
       <SheetContent showCloseButton={false} side="left" className="p-4 justify-between">
         <SheetHeader className="flex-row items-center p-0 justify-between">
           <SheetTitle asChild className="">
-            <small className="font-bold text-lg">LOGO</small>
+            <Badge />
           </SheetTitle>
           <SheetDescription className="sr-only">
             Make changes to your profile here. Click save when you&apos;re done.

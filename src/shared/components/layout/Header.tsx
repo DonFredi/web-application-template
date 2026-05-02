@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import SectionWrapper from "../shared/SectionWrapper";
 import Navbar from "./nav/Navbar";
-import LogoutButton from "@/modules/auth/components/logout/LogoutButton";
+import LogoutButton from "@/modules/auth/logout/components/LogoutButton";
 import Badge from "../shared/Badge";
 const MobileNav = dynamic(() => import("./nav/MobileNav"));
 

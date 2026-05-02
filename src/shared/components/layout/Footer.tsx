@@ -1,20 +1,18 @@
-import { siteConfig } from "@/config/site";
 import SectionWrapper from "../shared/SectionWrapper";
 import Navbar from "./nav/Navbar";
-import { H5 } from "../ui/Typography";
 import Clock from "../shared/Clock";
 import Copyright from "../shared/Copyright";
+import SocialNav from "../socials/SocialNav";
+import Badge from "../shared/Badge";
 
 export default function Footer() {
-  let currentTime = setTimeout(() => {
-    new Date();
-  }, 5000);
   return (
     <footer className="">
       <SectionWrapper className="flex flex-col gap-4 items-center">
-        <p className="text-green-500">{siteConfig.name}</p>
+        <Badge />
         <Navbar />
         <Clock />
+        <SocialNav />
         <Copyright />
       </SectionWrapper>
     </footer>

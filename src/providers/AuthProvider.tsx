@@ -1,8 +1,8 @@
 "use client";
 import * as Sentry from "@sentry/nextjs";
-import { getCurrentUser } from "@/modules/auth/api/me";
-import { refresh } from "@/modules/auth/api/refresh";
-import type { User } from "@/modules/auth/types";
+import { getCurrentUser } from "@/modules/auth/me/me.api";
+import { refresh } from "@/modules/auth/refresh/refresh.api";
+import type { User } from "@/modules/auth/shared/types";
 import FullScreenLoader from "@/shared/components/layout/FullScreenLoader";
 import { setAccessToken } from "@/shared/lib/api-client";
 import { authBreadcrumbs } from "@/shared/lib/sentry/sentry-breadcrumbs";

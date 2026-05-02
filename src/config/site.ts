@@ -1,35 +1,63 @@
+import { clientConfig } from "./client";
+
 interface SiteConfig {
   name: string;
   description: string;
   siteUrl: string;
-  phone: string;
-  email: string;
+  contact: {
+    phone: {
+      label: string;
+      link: string;
+    };
+    email: {
+      label: string;
+      link: string;
+    };
+    whatsapp: {
+      label: string;
+      link: string;
+    };
+  };
   address: {
     location: string;
   };
   ogImage: string;
   socialLinks: {
     twitter: string;
-    facebook: string;
+    instagram: string;
+    pinterest: string;
     tiktok: string;
-    whatsapp: string;
+    github: string;
   };
 }
 
 export const siteConfig: SiteConfig = {
-  name: "Scripttag Web Solutions",
+  name: "ScriptTagg",
   description: "Building web for the future",
-  siteUrl: process.env.SITE_URL || "http://localhost:3000",
-  phone: "+254...",
-  email: "knundahalphones@gmail.com",
+  siteUrl: clientConfig.app.siteUrl || "http://localhost:3000",
+  contact: {
+    phone: {
+      label: "+254 797 162 262",
+      link: "tel:+254797162262",
+    },
+    email: {
+      label: "scripttagg@gmail.com",
+      link: "mailto:scripttagg@gmail.com",
+    },
+    whatsapp: {
+      label: "+254 797 162 262",
+      link: "https://wa.me/254797162262",
+    },
+  },
   address: {
     location: "Obama Estate",
   },
   ogImage: "",
   socialLinks: {
-    twitter: "",
-    facebook: "",
-    tiktok: "",
-    whatsapp: "",
+    twitter: "https://x.com/scripttagg",
+    pinterest: "https://pinterest.com/scripttagg",
+    instagram: "https://instagram.com/scripttagg",
+    tiktok: "https://www.tiktok.com/@scripttagg",
+    github: "https://www.github.com/scripttagg",
   },
 };
